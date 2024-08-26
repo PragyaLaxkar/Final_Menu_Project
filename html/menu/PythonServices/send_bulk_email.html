@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Bulk Email</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --background-light: #f0f0f0;
+            --background-dark: #1e1e1e;
+            --text-light: #333;
+            --text-dark: #f0f0f0;
+            --nav-background: #4682B4;
+            --nav-hover: #4682B4;
+            --form-background: #fff;
+            --form-background-dark: #333;
+            --input-background: #fff;
+            --input-background-dark: #555;
+            --button-background: #4682B4;
+            --button-hover: #4682B4;
+            --button-text: #fff;
+            --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --box-shadow-dark: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="light"] {
+            --background: var(--background-light);
+            --text: var(--text-light);
+            --form-background: var(--form-background);
+            --input-background: var(--input-background);
+            --box-shadow: var(--box-shadow);
+        }
+
+        [data-theme="dark"] {
+            --background: var(--background-dark);
+            --text: var(--text-dark);
+            --form-background: var(--form-background-dark);
+            --input-background: var(--input-background-dark);
+            --box-shadow: var(--box-shadow-dark);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav {
+            width: 100%;
+            background-color: var(--nav-background);
+            padding: 10px 0;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ccc;
+        }
+
+        .theme-toggle {
+            background-color: #fff;
+            color: #4285f4;
+            border: none;
+            border-radius: 20px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 20px auto;
+        }
+
+        .theme-toggle:hover {
+            background-color: #ddd;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background-color: #555;
+            color: #fff;
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background-color: #444;
+        }
+
+        h1 {
+            color: var(--text);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background: var(--form-background);
+            color: var(--text);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        label {
+            margin-bottom: 10px;
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        input[type="text"], textarea {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 90%;
+            background: var(--input-background);
+            color: var(--text);
+            box-shadow: var(--box-shadow);
+        }
+
+        textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        input[type="submit"] {
+            padding: 15px 20px;
+            font-size: 16px;
+            background-color: var(--button-background);
+            color: var(--button-text);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: var(--box-shadow);
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--button-hover);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <nav>
+        <ul>
+            <li><a href="http://65.2.184.189/menu">Home</a></li>
+        </ul>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
+    <h1>Send Bulk Email</h1>
+    <form id="emailForm">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required></textarea>
+
+        <label for="recipients">Recipients (comma-separated):</label>
+        <input type="text" id="recipients" name="recipients" required>
+
+        <input type="submit" value="Send Emails">
+    </form>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', theme === 'light' ? 'dark' : 'light');
+        }
+
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+
+            const formData = new FormData(this);
+
+            fetch('/cgi-bin/send_bulk_email.py', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.results) {
+                    const results = data.results;
+                    results.forEach(result => {
+                        if (result.status === "success") {
+                            alert(`Email sent successfully to ${result.recipient}`);
+                        } else {
+                            alert(`Failed to send email to ${result.recipient}. Error: ${result.error}`);
+                        }
+                    });
+                } else {
+                    alert('Failed to send emails: Unknown error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while sending emails.');
+            });
+        });
+    </script>
+</body>
+</html>
