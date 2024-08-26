@@ -39,7 +39,7 @@ The project is deployed on an Apache HTTP server hosted on an AWS instance. Belo
 
 `
 yum install python3-pip`  
-`pip install twilio google-generativeai geopy paramiko boto3 requests beautifulsoup4 secure-smtplib  
+`pip install twilio google-generativeai geopy paramiko boto3 requests beautifulsoup4 secure-smtplib gtts  
 `
 
 ### Set Up Docker:
