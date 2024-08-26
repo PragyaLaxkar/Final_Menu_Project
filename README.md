@@ -30,34 +30,33 @@ The project is deployed on an Apache HTTP server hosted on an AWS instance. Belo
 
 ### Install Apache HTTP Server:
 
-\`\`\`bash
-yum install httpd
+`yum install httpd
 systemctl start httpd
 systemctl enable httpd
-\`\`\`
+`
 
 ### Install Python Dependencies:
 
-\`\`\`bash
+`
 yum install python3-pip
 pip install twilio google-generativeai geopy paramiko boto3 requests beautifulsoup4 secure-smtplib
-\`\`\`
+`
 
 ### Set Up Docker:
 
-\`\`\`bash
+`
 yum install docker
 systemctl start docker
 systemctl enable docker
-\`\`\`
+`
 
 ### Enable SSL/TLS Encryption:
 
-Install the \`mod_ssl\` package for SSL/TLS encryption on the server with:
+Install the `mod_ssl` package for SSL/TLS encryption on the server with:
 
-\`\`\`bash
+`
 yum install mod_ssl
-\`\`\`
+`
 
 This ensures secure HTTPS connections, enhancing the security of your deployed application.
 
