@@ -30,24 +30,24 @@ The project is deployed on an Apache HTTP server hosted on an AWS instance. Belo
 
 ### Install Apache HTTP Server:
 
-`yum install httpd
-systemctl start httpd
-systemctl enable httpd
+`yum install httpd`  
+`systemctl start httpd`  
+`systemctl enable httpd
 `
 
 ### Install Python Dependencies:
 
 `
-yum install python3-pip
-pip install twilio google-generativeai geopy paramiko boto3 requests beautifulsoup4 secure-smtplib
+yum install python3-pip`  
+`pip install twilio google-generativeai geopy paramiko boto3 requests beautifulsoup4 secure-smtplib  
 `
 
 ### Set Up Docker:
 
 `
-yum install docker
-systemctl start docker
-systemctl enable docker
+yum install docker`  
+`systemctl start docker`  
+`systemctl enable docker  
 `
 
 ### Enable SSL/TLS Encryption:
